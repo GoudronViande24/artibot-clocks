@@ -1,0 +1,34 @@
+{
+  "name": "artibot-clocks",
+  "version": "3.1.0",
+  "description": "Use Discord bots to show time in different timezones",
+  "main": "index.js",
+	"type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GoudronViande24/artibot-clocks.git"
+  },
+  "keywords": [
+    "artibot",
+    "clocks",
+    "timezone",
+    "time",
+    "bot",
+    "discord",
+    "artivain"
+  ],
+  "author": "GoudronViande24",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/GoudronViande24/artibot-clocks/issues"
+  },
+  "homepage": "https://github.com/GoudronViande24/artibot-clocks#readme",
+  "dependencies": {
+    "artibot": "^3.0.4",
+    "moment": "^2.29.3",
+    "moment-timezone": "^0.5.34"
+  }
+}
