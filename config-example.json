@@ -4,11 +4,13 @@
 	"clocks": [
 		{
 			"botName": "Montréal",
-			"timezone": "America/Montreal"
+			"timezone": "America/Montreal",
+			"token": "discord bot token"
 		},
 		{
 			"botName": "Paris",
-			"timezone": "Europe/Paris"
+			"timezone": "Europe/Paris",
+			"token": "discord bot token"
 		}
 	]
 }
