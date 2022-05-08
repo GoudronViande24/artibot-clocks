@@ -45,19 +45,9 @@ function mainFunction({ log, config }) {
 	localizer.setLocale(config.lang);
 	config = config.clocks;
 
-	if (!config.tokens) {
-		log("Clocks", localizer._("Configuration error: The private.json file is invalid."));
-		process.exit(1);
-	}
-
-	if (config.tokens.length != config.clocks.length) {
-		log("Clocks", localizer._("Configuration error: The amount of tokens is not equal to the amount of clocks."));
-		process.exit(1);
-	}
-
 	log("Clocks", localizer._("Loading..."));
 
-	for (var i = 0, len = config.clocks.length; i < len; i++) {
+	for (let i = 0, len = config.clocks.length; i < len; i++) {
 		startClock(config.clocks[i], config, i, log);
 	}
 }
@@ -94,5 +84,5 @@ function startClock(clock, config, i, log) {
 		}));
 	});
 
-	client.login(config.tokens[i]);
+	client.login(clock.token);
 }
