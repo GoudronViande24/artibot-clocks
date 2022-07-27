@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/GoudronViande24/artibot-clocks#readme",
   "dependencies": {
-    "artibot": "^3.0.11",
+    "artibot": "^4.0.0",
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.34"
   }
