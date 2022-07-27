@@ -1,6 +1,6 @@
 import moment from "moment";
 import "moment-timezone";
-import { Client, Intents } from "discord.js";
+import { Client, GatewayIntentBits } from "discord.js";
 import Localizer from "artibot-localizer";
 import Artibot, { Global, Module } from "artibot";
 
@@ -60,7 +60,7 @@ function updateActivity(client, config, clock) {
 function startClock(clock, config, i, log) {
 	// Since discord.js v13, intents are mandatory
 	const client = new Client({
-		intents: [Intents.FLAGS.GUILDS]
+		intents: [GatewayIntentBits.Guilds]
 	});
 
 	client.once("ready", client => {
