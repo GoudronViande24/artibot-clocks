@@ -28,6 +28,7 @@ export default new Module({
 		"fr"
 	],
 	repo: "GoudronViande24/artibot-clocks",
+	packageName: "artibot-clocks",
 	parts: [
 		new Global({
 			id: "clocks",
