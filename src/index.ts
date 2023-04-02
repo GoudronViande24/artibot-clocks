@@ -2,7 +2,7 @@ import moment from "moment";
 import "moment-timezone";
 import { Client, GatewayIntentBits } from "discord.js";
 import Localizer from "artibot-localizer";
-import Artibot, { Global, Module } from "artibot";
+import Artibot, { Global, Module, log } from "artibot";
 
 import path from "path";
 import { fileURLToPath } from "url";
@@ -12,7 +12,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const require = createRequire(import.meta.url);
-const { version } = require('./package.json');
+const { version } = require('../package.json');
 
 /**
  * Clocks module - Show time from many timezones in your Discord server
@@ -37,37 +37,47 @@ export default new Module({
 	]
 });
 
-const localizer = new Localizer({
-	filePath: path.join(__dirname, "locales.json")
+interface Clock {
+	botName: string;
+	timezone: string;
+	token: string;
+}
+
+interface ClocksConfig {
+	format: string;
+	updateinterval: number;
+	clocks: Clock[];
+}
+
+const localizer: Localizer = new Localizer({
+	filePath: path.join(__dirname, "../locales.json")
 });
 
-/** @param {Artibot} artibot */
-function mainFunction({ log, config }) {
-	localizer.setLocale(config.lang);
-	config = config.clocks;
+async function mainFunction(artibot: Artibot): Promise<void> {
+	localizer.setLocale(artibot.config.lang);
+	const config: ClocksConfig = artibot.config.clocks;
 
 	log("Clocks", localizer._("Loading..."));
 
 	for (let i = 0, len = config.clocks.length; i < len; i++) {
-		startClock(config.clocks[i], config, i, log);
+		startClock(config.clocks[i], config, i);
 	}
 }
 
-function updateActivity(client, config, clock) {
+function updateActivity(client: Client<true>, config: ClocksConfig, clock: Clock): void {
 	const timeNowUpdate = moment().tz(clock.timezone).format(config.format);
 	client.user.setActivity(`🕒 ${timeNowUpdate}`);
 }
 
-function startClock(clock, config, i, log) {
-	// Since discord.js v13, intents are mandatory
+function startClock(clock: Clock, config: ClocksConfig, i: number): void {
 	const client = new Client({
 		intents: [GatewayIntentBits.Guilds]
 	});
 
-	client.once("ready", client => {
+	client.once("ready", async (client): Promise<void> => {
 		if (client.user.username !== clock.botName) {
 			client.user.setUsername(clock.botName);
-			log("Clocks", localizer.__("Clock #[[0]]: Name changed for [[1]]", { placeholders: [i, clock.botName] }));
+			log("Clocks", localizer.__("Clock #[[0]]: Name changed for [[1]]", { placeholders: [i.toString(), clock.botName] }));
 		}
 
 		// set the interval
@@ -77,7 +87,7 @@ function startClock(clock, config, i, log) {
 		// tell when it's ready
 		log("Clocks", localizer.__("Clock #[[0]]: Connected as [[1]] ([[2]]) on [[3]]", {
 			placeholders: [
-				i,
+				i.toString(),
 				client.user.tag,
 				client.user.id,
 				moment().format("MMMM DD YYYY, HH:mm:ss")
