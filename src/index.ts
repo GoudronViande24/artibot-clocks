@@ -49,6 +49,30 @@ interface ClocksConfig {
 	clocks: Clock[];
 }
 
+export class ArtibotClocksConfigBuilder implements ClocksConfig {
+	format: string = "HH:mm (z)";
+	updateinterval: number = 10000;
+	clocks: Clock[] = [];
+
+	/** Set the format of the time */
+	public setFormat(format: string): this {
+		this.format = format;
+		return this;
+	}
+
+	/** Set the update interval of the time */
+	public setUpdateInterval(updateinterval: number): this {
+		this.updateinterval = updateinterval;
+		return this;
+	}
+
+	/** Add a clock */
+	public addClock(botName: string, timezone: string, token: string): this {
+		this.clocks.push({ botName, timezone, token });
+		return this;
+	}
+}
+
 const localizer: Localizer = new Localizer({
 	filePath: path.join(__dirname, "../locales.json")
 });
